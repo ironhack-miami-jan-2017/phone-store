@@ -7,6 +7,7 @@ const bodyParser   = require('body-parser');
 const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
 const dotenv       = require('dotenv');
+const cors         = require('cors');
 
 
 dotenv.config();
@@ -29,9 +30,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
+app.use(cors());
+
 
 const index = require('./routes/index');
 app.use('/', index);
+
+const phonesApi = require('./routes/phones-api');
+app.use('/api', phonesApi);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
